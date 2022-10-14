@@ -1,0 +1,189 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+
+class node {
+public:
+    int data;
+    node* next;
+};
+ 
+typedef node p;
+ 
+
+void push(node** head_ref, int data)
+{
+    
+    node* q = new node[(sizeof(node))];
+ 
+  
+    q->data = data;
+ 
+    
+    q->next = (*head_ref);
+ 
+    
+    (*head_ref) = q;
+}
+ 
+
+void printList(node* q)
+{
+    while (q != NULL) {
+        cout << q->data << " ";
+        q = q->next;
+    }
+    cout << endl;
+}
+ 
+
+
+ 
+
+int getSize(node* q)
+{
+    int size = 0;
+    while (q != NULL) {
+        q = q->next;
+        size++;
+    }
+    return size;
+}
+ 
+
+node* add(node* head, node* head2, int* carry)
+{
+  
+    if (head == NULL)
+        return NULL;
+ 
+    int sum;
+ 
+    
+    node* result = new node[(sizeof(node))];
+ 
+    
+    result->next
+        = add(head->next, head2->next, carry);
+ 
+    
+    sum = head->data + head2->data + *carry;
+    *carry = sum / 10;
+    sum = sum % 10;
+ 
+    
+    result->data = sum;
+ 
+    return result;
+}
+ 
+
+void addcarry(node* head, node* cur, int* carry,
+                         node** result)
+{
+    int sum;
+ 
+    
+    if (head != cur) {
+        addcarry(head->next, cur, carry,
+                            result);
+ 
+        sum = head->data + *carry;
+        *carry = sum / 10;
+        sum %= 10;
+ 
+        
+        push(result, sum);
+    }
+}
+ 
+void swap(node** a, node** b)
+{
+    node* t = *a;
+    *a = *b;
+    *b = t;
+}
+void addlist(node* head, node* head2, node** result)
+{
+    node*i;
+ 
+    
+    if (head == NULL) {
+        *result = head2;
+        return;
+    }
+ 
+    
+    else if (head2 == NULL) {
+        *result = head;
+        return;
+    }
+ 
+    int size1 = getSize(head);
+    int size2 = getSize(head2);
+ 
+    int carry = 0;
+ 
+    
+    if (size1 == size2)
+        *result = add(head, head2, &carry);
+ 
+    else {
+        int j= abs(size1 - size2);
+ 
+        
+        if (size1 < size2)
+            swap(&head, &head2);
+ 
+        
+        for (i = head; j--; i= i->next)
+            ;
+ 
+        
+        *result = add(i, head2, &carry);
+ 
+        
+        addcarry(head, i, &carry, result);
+    }
+ 
+  
+    if (carry)
+        push(result, carry);
+}
+ 
+// Driver code
+int main()
+{
+    node *head = NULL, *head2 = NULL, *result = NULL;
+ 
+// { 9, 9, 9 };
+  //{ 1, 8 };
+ 
+    int n ;
+    int m;
+ cout<<"enter size of an  two array"<<endl;
+    cin>>n>>m;
+    int arr[n];
+     int brr[m]; 
+     cout<<"arr"<<endl;
+    for(int i=0;i<n;i++){
+        cin>>arr[i];
+    }
+cout<<"for brr"<<endl;
+for(int j=0;j<m;j++){
+cin>>brr[j];
+}
+    int i;
+    for (i = n - 1; i >= 0; --i)
+        push(&head, arr[i]);
+ 
+    
+    for (i = m - 1; i >= 0; --i)
+        push(&head2, brr[i]);
+ 
+    addlist(head, head2, &result);
+ 
+    printList(result);
+ 
+    return 0;
+}
