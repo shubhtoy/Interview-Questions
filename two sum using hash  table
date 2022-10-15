@@ -1,0 +1,37 @@
+# include<bits/stdc++.h>
+using namespace std;
+
+
+    vector<int> sum(vector<int>&v, int val) {
+        map<int,int>hash;
+        vector <int> result;
+        int i;
+        for(i=0;i<v.size();i++)
+        {
+            if(hash.find(val-v[i])!=hash.end())
+            {
+                
+                result.push_back(hash[val-v[i]]);
+                result.push_back(i);
+                return result;
+            }
+            else
+                hash[v[i]] = i;
+        }  
+        return result;     
+}
+
+int main(){
+int n;
+cin>>n;
+vector<int> v(n);
+for(int i=0;i<n;i++){
+    cin>>v[i];
+}
+int target;
+cout<<"target"<<endl;
+cin>>target;
+vector<int> pair=sum(v,target);
+cout << "pair indices are : " << pair[0] << " " << pair[1] << endl;
+return 0;
+}
