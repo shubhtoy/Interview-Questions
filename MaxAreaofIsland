@@ -1,0 +1,32 @@
+void dfs(int i,int j,vector<vector<int>>& grid,int &curr,int &ans)
+    { 
+        if( i < 0 || j < 0 || i >= grid.size() || j >= grid[0].size() || grid[i][j] != 1)
+        {
+            return;
+        }
+        grid[i][j] = 2;
+        curr++;
+        
+        dfs(i+1,j,grid,curr,ans);
+        dfs(i,j+1,grid,curr,ans);
+        dfs(i-1,j,grid,curr,ans);
+        dfs(i,j-1,grid,curr,
+    int maxAreaOfIsland(vector<vector<int>
+        int ans  = INT_MIN;
+        int curr = 0;
+        rep(i,0,grid.size())
+        {
+            rep(j,0,grid[0].size())
+            {
+                if(grid[i][j] == 1)
+                {
+                    curr = 0;
+                    dfs(i,j,grid,curr,ans);
+                }
+            }
+        }
+        return max(ans,curr);
+    }>& grid) {and);
+        
+        ans = max(ans,curr);
+    }
