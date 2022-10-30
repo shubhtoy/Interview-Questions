@@ -1,0 +1,21 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import datasets
+iris = datasets.load_iris()
+print(iris)
+#The output graph of the Elbow method is shown below. Note that the shape of elbow is approximately formed at k=3
+#Plotting the results onto a line graph, allowing us to observe 'The elbow'
+from sklearn.cluster import KMeans
+Error =[]
+for i in range(1, 11):
+    kmeans11 = KMeans(n_clusters = i, init = 'k-means++', max_iter = 300, n_init = 10, random_state = 0).fit(iris1)
+    kmeans11.fit(iris1)
+    Error.append(kmeans11.inertia_)
+import matplotlib.pyplot as plt
+plt.plot(range(1, 11), Error)
+plt.title('Elbow-Method using WCSS with k=1-11')
+plt.xlabel('No of clusters')
+plt.ylabel('Error') #within cluster sum of squares
+plt.show()
+print("To determine the optimal number of clusters, we have to select the value of k at the “elbow” ie the point after which the distortion/inertia start decreasing in a linear fashion.\n Thus for the given data, we conclude that the optimal number of clusters for the data is 3.")
