@@ -1,0 +1,90 @@
+#include<bits/stdc++.h>
+using namespace std;
+int n,b,p,m,bs=1,N,w[33];
+vector<int>v[33],sum[33];
+bool cmp(int x,int y){
+	return x>y;
+}
+bool chs[33];
+int val[33];
+long long ret;
+int calc(int i,long long val){
+	int l=0,r=v[i].size();
+	while(l!=r){
+		int mid=(l+r>>1);
+		if(v[i][mid]>=val)
+			l=mid+1;
+		else
+			r=mid;
+	}return l;
+}
+void dfs(int x,int lst){
+	if(x>N){
+		val[N]=1;
+		int t=b,T=1;
+		for(int i=N;i>0;i--){
+			val[i-1]=val[i];
+			if(!chs[i])
+				val[i-1]*=w[i];
+			else{
+				T*=w[i],t-=m;
+				if(t<0)return;
+			}
+		}t/=p;
+		long long ans=1ll*bs*val[0];
+		for(int i=1;i<=N;i++)
+			ans+=1ll*sum[i].back()*val[i];
+		long long l=0,r=4e18,mid,cnt;
+		while(l!=r){
+			mid=(l+r>>1);cnt=0;
+			for(int i=1;i<=N;i++)
+				if(val[0]-val[i])
+					cnt+=calc(i,1+mid/(val[0]-val[i]));
+			if(cnt<t)
+				r=mid;
+			else
+				l=mid+1;
+		}cnt=0;
+		for(int i=1;i<=N;i++)
+			if(val[0]-val[i]){
+				int tmp=calc(i,1+l/(val[0]-val[i]));
+				cnt+=tmp;
+				ans+=1ll*sum[i][tmp]*(val[0]-val[i]);
+			}
+		ans+=1ll*(t-cnt)*l;
+		ret=max(ret,ans*T);
+		return;
+	}
+	dfs(x+1,max(lst,w[x]));
+	if(lst<w[x]){
+		chs[x]=1;
+		dfs(x+1,lst);
+		chs[x]=0;
+	}
+}
+int main(){
+	ios::sync_with_stdio(0);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	cin>>n>>b>>p>>m;
+	for(int i=0;i<n;i++){
+		char c;int a;
+		cin>>c>>a;
+		if(c=='+')
+			if(N)
+				v[N].push_back(a);
+			else
+				bs+=a;
+		else
+			if(a>1)
+				w[++N]=a;
+	}
+	for(int i=1;i<=N;i++){
+		sort(v[i].begin(),v[i].end(),cmp);
+		sum[i].push_back(0);
+		for(int j=0;j<v[i].size();j++)
+			sum[i].push_back(sum[i].back()+v[i][j]);
+	}
+	dfs(1,0);
+	cout<<ret;
+}
