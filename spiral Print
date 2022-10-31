@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+using namespace std;
+void printVector(vector<int> v){
+    for(int i=0;i<v.size();i++){
+        cout<<v[i]<<" ";
+    }
+}
+vector<int> spiralWave(vector<vector<int> >& matrix){
+    vector<int>  ans;
+    int row=matrix.size();
+    int col=matrix[0].size();
+    int total =row*col-1;
+    int count=0;
+    int startingRow=0;
+    int startingCol=0;
+    int endingRow=row-1;
+    int endingCol=col-1;
+    while(count<total){
+         //starting row
+        for(int i=startingCol;count<total && i<=endingCol;i++){
+            ans.push_back(matrix[startingRow][i]);
+            count++;
+        }
+        startingRow++;
+        //endingcol Top to bottm
+        for(int i=startingRow;count<total && i<=endingRow;i++){
+            ans.push_back(matrix[i][endingCol]);
+            count++;
+        }
+        endingCol--;
+        //bottom right to left
+        for(int i=endingCol ;count<total && i<=startingCol;i--){
+            ans.push_back(matrix[endingRow][i]);
+            count++;
+        }
+        endingRow--;
+        //startingCol bot to up
+        for(int i=endingRow;count<total && i<=startingRow;i--){
+            ans.push_back(matrix[i][startingCol]);
+            count++;
+        }
+        startingCol++;
+
+
+    }
+   return ans;
+}
+
+int main(){
+   
+    cout<<"enter the row and col:";
+    int row,col;
+    cin>>row>>col;
+
+    vector<vector<int> > v;
+    int val;
+    for(int i = 0; i < row; i++){
+        vector<int> temp;
+        for(int j = 0; j < col; j++){
+            cin >> val;
+            temp.push_back(val);
+        }
+        v.push_back(temp);
+        temp.clear();
+    }
+    printVector(spiralWave(v));
+
+
+        
+ 
+    return 0;
+}
