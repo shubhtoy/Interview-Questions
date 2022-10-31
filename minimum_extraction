@@ -1,0 +1,11 @@
+for _ in range(int(input())):
+	_=input()
+	x=list(map(int,input().split()))
+	x.sort()
+	p=x[0]
+	n=p
+	m=p
+	for a in x[1:]:
+		m=max(m,a-n)
+		n+=a-n
+	print(m)
