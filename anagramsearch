@@ -1,0 +1,28 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+ 
+string s,p;
+int cnts[26],cntp[26];
+ 
+int main(){
+	cin>>s>>p;
+	int sum=0;
+	int l1=s.size(),l0=p.size();
+	for(int i=0;i<l0;i++) cntp[p[i]-'a']++;
+	for(int i=0;i<l1;i++){
+		if(s[i]!='?') cnts[s[i]-'a']++;
+		if(i-l0+1>=0){
+			sum++;
+			for(int j=0;j<26;j++){
+				if(cnts[j]>cntp[j]){
+					sum--;
+					break;
+				}
+			}
+			if(s[i-l0+1]!='?') cnts[s[i-l0+1]-'a']--;
+		} 
+	}
+	cout<<sum<<endl;
+	return 0;
+}
