@@ -1,0 +1,9 @@
+from itertools import *
+import sys
+input = sys.stdin.readline
+n, m = map(int, input().split())
+s = input()
+ps = [list(accumulate((c1 != c2 for c1, c2 in zip(cycle(pm), s)), initial=0)) for pm in permutations('abc')]
+for _ in range(m):
+    l, r = map(int, input().split())
+    print(min(p[r] - p[l-1] for p in ps))
