@@ -1,0 +1,50 @@
+#import<bits/stdc++.h>
+#define endl '\n'
+using namespace std;
+int n,t,x,y,z,a[24][360],b[24][360],w[24][360];
+char c;
+string s;
+void dfs(int x,int y)
+{
+	if(w[x][y])return;
+	if(x>19)
+	{
+		s="YES";
+		return;
+	}
+	w[x][y]=1;
+	if(x&&!a[x-1][y])dfs(x-1,y);
+	if(!a[x][y])dfs(x+1,y);
+	if(!b[x][y])dfs(x,(y+359)%360);
+	if(!b[x][(y+1)%360])dfs(x,(y+1)%360);
+}
+int main()
+{
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	for(cin>>t;t--;)
+	{
+		for(cin>>n;n--;)
+		{
+			cin>>c>>x>>y>>z;
+			if(c=='C')
+			{
+				for(;y!=z;)
+				{
+					a[x-1][y]=1;
+					++y%=360;
+				}
+			}
+			if(c=='S')
+			{
+				for(;x<y;x++)b[x][z]=1;
+			}
+		}
+		s="NO";
+		dfs(0,0);
+		cout<<s<<endl;
+		fill(*a,*a+8640,0);
+		fill(*b,*b+8640,0);
+		fill(*w,*w+8640,0);
+	}
+}
